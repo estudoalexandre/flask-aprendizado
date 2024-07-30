@@ -1,0 +1,13 @@
+config.py
+migrations/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.idea/
+*.sublime-workspace
+*.sublime-project
+.vscode/
+*.code-workspace
+*.log
