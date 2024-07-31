@@ -15,4 +15,4 @@ api = Api(app)
 
 
 from .views import user_view
-from .models import user_model
+from .models import user_model, posts_model
