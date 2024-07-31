@@ -65,8 +65,12 @@ class DetailUser(Resource):
             return make_response(jsonify(user_atualizado), 200)
 
 
-    def delete(self):
-        pass
+    def delete(self, id):
+        user_db = user_service.get_user_by_id(id)
+        if user_db is None:
+            return make_response(jsonify({'error': 'User not found'}), 404)
+        user_service.delete_user(user_db)
+        return make_response(jsonify({'message': 'User deleted'}), 200)
 
 
 api.add_resource(UserList, '/users')
