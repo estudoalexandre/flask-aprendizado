@@ -1,40 +1,36 @@
-from ..models import user_model
-from .. import db
+from ..models.posts_model import Post
+from api import db
 
+def get_all_posts():
+    return Post.query.all()
 
-def create_user(user):
-    new_user = user_model.User(username=user.username,
-                               idade=user.idade,
-                               email=user.email,
-                               password_hash=user.password_hash)
-    db.session.add(new_user)
+def get_post_by_id(post_id):
+    return Post.query.filter_by(id=post_id).first()
+
+def create_post(post_data):
+    new_post = Post(
+        title=post_data['title'],
+        content=post_data['content'],
+        user_id=post_data['user_id']
+    )
+    db.session.add(new_post)
     db.session.commit()
-    return new_user
+    return new_post
 
+def update_post(post_id, post_data):
+    post = get_post_by_id(post_id)
+    if post:
+        post.title = post_data.get('title', post.title)
+        post.content = post_data.get('content', post.content)
+        post.user_id = post_data.get('user_id', post.user_id)
+        db.session.commit()
+        return post
+    return None
 
-def get_all_users():
-    all_users = user_model.User.query.all()
-    return all_users
-
-
-def get_user_by_id(user_id):
-    user = user_model.User.query.filter_by(id=user_id).first()
-    return user
-
-
-def get_user_by_email(email):
-    user_email = user_model.User.query.filter_by(email=email).first()
-    return user_email
-
-
-def update_user(user_antigo, novo_user):
-    user_antigo.username = novo_user.username
-    user_antigo.idade = novo_user.idade
-    user_antigo.email = novo_user.email
-    user_antigo.password_hash = novo_user.password_hash
-    db.session.commit()
-
-
-def delete_user(user_id):
-    db.session.delete(user_id)
-    db.session.commit()
+def delete_post(post_id):
+    post = get_post_by_id(post_id)
+    if post:
+        db.session.delete(post)
+        db.session.commit()
+        return post
+    return None

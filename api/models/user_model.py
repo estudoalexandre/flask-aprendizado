@@ -13,4 +13,4 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
 
-    posts = db.relationship('Post', backref='user', lazy=True)
+    posts = db.relationship('Post', back_populates='user')

@@ -10,3 +10,5 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+    user = db.relationship('User', back_populates='posts')
+
