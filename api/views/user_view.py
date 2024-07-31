@@ -43,6 +43,28 @@ class DetailUser(Resource):
         result = us.dump(user)
         return make_response(jsonify(result), 200)
 
+
+    def put(self, id):
+        user_db = user_service.get_user_by_id(id)
+        if user_db is None:
+            return make_response(jsonify({'error': 'User not found'}), 404)
+        us = user_schema.UserSchema()
+        validate = us.validate(request.json)
+        if validate:
+            return make_response(jsonify(validate), 200)
+        else:
+            username = request.json['username']
+            idade = request.json['idade']
+            email = request.json['email']
+            password_hash = request.json['password_hash']
+            att_user = user.User(username=username, idade=idade,
+                                 email=email,
+                                 password_hash=password_hash)
+            user_service.update_user(user_db, att_user)
+            user_atualizado = user_service.get_user_by_id(id)
+            return make_response(jsonify(user_atualizado), 200)
+
+
     def delete(self):
         pass
 
