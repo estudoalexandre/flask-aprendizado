@@ -14,5 +14,5 @@ ma = Marshmallow(app)
 api = Api(app)
 
 
-from .views import user_view, posts_view
+from .views import user_view, posts_view, comments_view
 from .models import user_model, posts_model, comments_model
